@@ -22,6 +22,10 @@
             align-items: flex-start;
             min-height: 100vh;
             padding: 20px;
+            background-image: url(./个人项目合集/img/bg.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-weight: bold;
         }
 
         .container {
@@ -35,13 +39,13 @@
 
         /* 左侧样式 */
         .left {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255,0.7);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             flex: 1 1 300px;
             text-align: center;
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255,0.7);
         }
 
         .left img {
@@ -56,11 +60,18 @@
         .left h2 {
             color: #4A90E2;
             margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 32pxs;
+        }
+        .left h3{
+            color: #4A90E2;
+            font-weight: bold;
+            margin-top: 50px;
         }
 
         .left p {
             color: #555;
-            font-size: 16px;
+            font-size: 18px;
             margin-bottom: 5px;
         }
 
@@ -72,7 +83,7 @@
         /* 右侧样式 */
         .right {
             flex: 2 1 600px;
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255,0.2);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -91,8 +102,14 @@
             margin-bottom: 20px;
             padding: 15px;
             border-radius: 10px;
-            background-color: #f4f7fc;
+            background-color: rgba(255, 255, 255,0.6);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .project:hover{
+            /* //放大 */
+            transform: scale(1.15);
+            /* //平移 */
+            transform: translate(0, -5px);
         }
 
         .project img {
@@ -161,7 +178,11 @@
             <p style="font-size: 20px;margin-top: 20px;">
                 专业计算机应用技术，热爱编程，擅长Web前端开发，熟练掌握HTML、CSS、JavaScript、jQuery、Bootstrap、Vue.js等技术，有丰富的项目经验，对Web开发有浓厚兴趣。
             </p>
-
+            <p><a href="./个人项目合集/案例与练习.html" target="_blank">学习过程的案例与练习</a></p>
+            <h3>联系方式</h3>
+            <p>电话：17817365660</p>
+            <p>邮箱：2280238977@qq.com</p>
+            <p>微信：xiaoyang0909</p>
         </div>
 
         <!-- 右侧项目介绍 -->
@@ -171,12 +192,18 @@
              <div class="project">
                 <img src="./个人项目合集/贪吃蛇/img/bg.jpg">
                 <div>
-                    <h3>js游戏项目:贪吃蛇 拼图游戏</h3>
+                    <h3>js游戏项目:贪吃蛇</h3>
                     <p>使用jqurey库和canvas绘制游戏界面，实现了游戏的基本功能，包括蛇的移动、食物的生成、游戏结束的判断等。</p>
                     <a target="_blank" href="./个人项目合集/贪吃蛇/form.html">贪吃蛇</a>
+                </div>
+                <img src="./个人项目合集/img/拼图.png">
+                <div>
+                    <h3>js游戏项目:贪吃蛇</h3>
+                    <p>使用jqurey库和canvas绘制游戏界面，实现了游戏的基本功能，包括蛇的移动、食物的生成、游戏结束的判断等。</p>
                     <a target="_blank" href="./个人项目合集/JS/拼图游戏last.html">拼图游戏</a>
                 </div>
-            </div> <!-- bootstrap 项目 -->
+            </div>
+             <!-- bootstrap 项目 -->
             <div class="project">
                 <img src="./个人项目合集/栅格布局/在线娱乐游戏响应式网站/static/image/subpage-hero-img.png" alt="项目图标">
                 <div>
@@ -235,6 +262,7 @@
                     <a href="./demo.html">查看代码</a>
                 </div>
             </div>
+            
 
         </div>
     </div>
