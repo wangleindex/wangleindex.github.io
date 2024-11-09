@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>随机点名</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .container {
+            width: 750px;
+            margin: 0 auto;
+        }
+
+        .wrap {
+            padding: 10px 30px;
+        }
+
+        .wrap ul {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px 0;
+            /* background-color: #ccc; */
+        }
+
+        .wrap ul li {
+            width: 100px;
+            height: 40px;
+            border: 1px solid #ccc;
+            margin: 10px 5px;
+            text-align: center;
+            line-height: 40px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+
+        .wrap ul li.active {
+            background-color: yellowgreen;
+            color: #fff;
+        }
+
+        .foot {
+            text-align: center;
+
+        }
+
+        .foot button {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .foot p {
+            padding: 15px 0;
+        }
+
+        .foot p span {
+            font-weight: bold;
+            font-size: 40px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="wrap">
+            <ul>
+                <!-- <li>姓名</li>
+                <li class="active">姓名</li>
+                <li>姓名</li>
+                <li>姓名</li>
+                <li>姓名</li>
+                <li>姓名</li>
+                <li>姓名</li>
+                <li>姓名</li>
+                <li>姓名</li>
+                <li>姓名</li> -->
+            </ul>
+        </div>
+        <div class="foot">
+            <div>
+                <button class="btn btn-start">开始随机</button>
+                <button class="btn btn-stop">停止</button>
+            </div>
+            <p class="message">天选之子:<span>??</span></p>
+        </div>
+    </div>
+
+    <script src="./student_json.js"></script>
+    <script>
+        // 需求：
+        // 1、渲染数组的所有学生姓名
+        // 2、点击 “按钮” 从数组中随机选中一个学生、并设置其背景高亮
+        // 3、把选中的学生姓名渲染出来
+
+        // 编码：
+        // 1）获取相关的标签
+        var ul_element = document.querySelector(".wrap ul");
+        var btn_start = document.querySelector(".btn-start");
+        var btn_stop = document.querySelector(".btn-stop");
+        var span_element = document.querySelector(".message span");
+
+
+        // 定义变量 记录定时器
+        var timer = null;
+
+        // 2） 定义函数渲染所有学生姓名
+        var tempalte = function (array) {
+            // 定义字符串
+            var str = '';
+            // 循环数组
+            for (var i = 0; i < array.length; i++) {
+                // 每循环一次、拼接一个姓名
+                str += `<li>${array[i].name}</li>`;
+            }
+            // 循环结束 渲染字符串
+            ul_element.innerHTML = str;
+        }
+
+        // 调用template函数
+        tempalte(arr);
+
+
+        // 定义函数处理 “随机选中姓名”
+        var renderRandomName = function(){
+            // 获取所有的li标签
+            var childs = ul_element.children;
+            // 排他处理
+            for(var j = 0 ; j < childs.length ; j ++){
+                childs[j].className = "";
+            }
+            // 随机索引值
+            var index = Math.floor(Math.random() * childs.length);
+            // 设置index对应的标签背景高亮
+            childs[index].className = "active";
+        }   
+
+        // 事件绑定
+        btn_start.onclick = function () {
+            // 重置span标签的文本
+            span_element.innerText = "??";
+            // 使用定时器 先清除定时
+            if(timer) clearInterval(timer);
+            // 执行定时器
+            timer = setInterval(function(){
+                // 获取随机姓名（做随机标签背景高亮）
+                renderRandomName();
+            },100)
+        }
+        btn_stop.onclick = function () {
+            // 清除定时器函数
+            if(timer) clearInterval(timer);
+            // 把选中的“姓名”渲染
+            var el = document.querySelector(".active");
+            var userName = el.innerText;
+            // 渲染
+            span_element.innerText = userName;
+        }
+
+    </script>
+</body>
+
+</html>

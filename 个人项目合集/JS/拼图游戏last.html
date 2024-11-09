@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .begin {
+            width: 320px;
+            height: 320px;
+        }
+
+        .begin img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .list {
+            position: relative;
+            width: 640px;
+            height: 640px;
+            background-color: white;
+            border: 5px solid #ccc;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            margin-left: 300px;
+        }
+
+        .list li {
+
+            width: 213.33px;
+            height: 213.33px;
+            font-size: 0;
+            position: absolute;
+            transition: all .5s;
+            overflow: hidden;
+            left: 0;
+            top: 0;
+
+        }
+
+        .list li::after {
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            content: "";
+            box-shadow: 0 0 10px 0 white inset;
+            z-index: 3;
+            left: 0;
+            top: 0;
+        }
+
+        .list li img {
+            position: absolute;
+            width: 640px;
+            left: 0;
+            top: 0;
+        }
+
+        li.active::after {
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            content: "";
+            box-shadow: 0 0 10px 0 red inset;
+            z-index: 3;
+            left: 0;
+            top: 0;
+        }
+
+        .choose {
+            width: 320px;
+            height: 200px;
+            margin-left: 400px;
+        }
+        option{
+            padding: 10px 0;
+            width: 100%;
+            color: #181616;
+            border: 2px solid #181616;
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+            cursor: pointer;
+
+        }
+        .begin{
+            margin-top: 100px;
+            margin-left: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lw">
+        <div class="begin">
+            <img src="../栅格布局/imgs/1.webp" alt="">
+        </div>
+        <div class="choose">
+            <option value="9" selected>简单</option>
+            <option value="36">中等</option>
+            <option value="81">困难</option>
+        </div>
+        <ul class="list">
+        </ul>
+
+       
+    </div>
+
+
+    <script>
+        var lw = document.querySelector(".lw")
+        var ul = document.querySelector("ul")
+        var choose = document.querySelector(".choose")
+        var thelevel = document.querySelectorAll("option")
+        var one = 9
+        choose.addEventListener("click", function (event) {
+            var target = event.target
+            one = Number(target.value)
+            console.log(one);
+            ul.innerHTML = ""
+            level(one)
+        })
+        var level = function (num) {
+            var ul = document.querySelector("ul")
+            var ulwidth = ul.offsetWidth
+            console.log(num);
+
+            for (var j = 0; j < num; j++) {
+                var li = document.createElement("li")
+                li.innerHTML = '<img src="../栅格布局/imgs/1.webp" alt="">'
+                ul.appendChild(li)
+            }
+            var lis = ul.querySelectorAll("li")
+            var xy = Math.sqrt(num)
+
+            var arr = []
+            for (var i = 0; i < lis.length; i++) {
+                arr.push(i)
+            }
+            arr.sort(() => Math.random() - 0.5)
+
+            lis.forEach((item, index) => {
+                item.style.width = ulwidth / xy + "px"
+                item.style.height = ulwidth / xy + "px"
+                item.dataset.key1 = index
+                item.dataset.key2 = arr[index]
+
+                item.style.top = Math.floor(item.dataset.key2 / xy) * (ulwidth / xy) + "px"
+                item.style.left = (item.dataset.key2 % xy) * (ulwidth / xy) + "px"
+
+                var img = item.querySelector("img")
+                img.style.top = Math.floor(index / xy) * -(ulwidth / xy) + "px"
+                img.style.left = (index % xy) * -(ulwidth / xy) + "px"
+
+            })
+            var arrClick = []
+            ul.onclick = event => {
+                var target = event.target
+                if (target.tagName !== "LI") {
+                    target = target.parentNode
+                }
+                if (target.tagName === "LI") {
+                    target.classList.add("active")
+
+                    setTimeout(() => {
+                        arrClick.push(target)
+                        if (arrClick.length == 2) {
+                            var temp = arrClick[0].dataset.key2
+                            arrClick[0].dataset.key2 = arrClick[1].dataset.key2
+                            arrClick[1].dataset.key2 = temp
+
+                            arrClick.forEach((li) => {
+                                li.classList.remove("active")
+
+                                li.style.top = Math.floor(li.dataset.key2 / xy) * (ulwidth / xy) + "px"
+                                li.style.left = (li.dataset.key2 % xy) * (ulwidth / xy) + "px"
+
+                            })
+                            var isOver = Array.prototype.slice.call(lis).every((li) => {
+                                return li.dataset.key1 == li.dataset.key2
+                            })
+                            arrClick = []
+                            setTimeout(() => {
+                                if (isOver) {
+                                    alert("拼图完成")
+                                }
+                            }, 500)
+                        }
+                    }, 100)
+                }
+
+            }
+
+
+        }
+        level(one)
+    </script>
+</body>
+
+</html>

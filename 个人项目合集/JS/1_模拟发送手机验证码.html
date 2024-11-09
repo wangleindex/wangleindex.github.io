@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本模板</title>
+    <style>
+         input , button {
+            border: 0;
+            box-sizing: border-box;
+            vertical-align: middle;
+         }
+         .form {
+            width: 600px;
+            margin: 0 auto;
+         }
+         .form > div {
+            margin-top: 30px;
+         }
+         .form > div label {
+            vertical-align: middle;
+            margin-right: 30px;
+         }
+         .form > div .btn {
+            height: 36px;
+            border-radius: 5px;
+            padding: 0 15px;
+            cursor: pointer;
+         }
+         .form > div .btn-area {
+            background-color: #337ab7;
+            color: #fff;
+         }
+         .form > div .inp-phone {
+            height: 36px;
+            border: 1px solid #ccc; 
+            border-radius: 4px;
+            padding-left: 15px;
+            outline-color: #b8d6f0;
+            outline-width: 1px;
+         }
+         .form > div .btn-send {
+            background-color: rgb(92, 184, 92);
+            color: #fff;
+         }
+         .form > div .btn-send.active {
+            /* opacity: .5; */
+            background-color: rgba(92, 184, 92,.65);
+         }
+    </style>
+</head>
+<body>
+
+    <div class="form">
+          <!-- 问题：为什么不直接使用form标签？ 因为form标签点击按钮/提交,页面会发生刷新/跳转。 -->
+          <div>
+               <label>手机号</label>
+               <button class="btn btn-area">中国+86</button>
+               <input class="inp-phone" type="text" placeholder="请输入手机号码">
+               <button class="btn btn-send">发送验证码</button>
+          </div>
+        </div>
+
+    <script>
+        // 需求：  
+            // 点击 “发送验证码” 按钮，获取输入框的值，判断输入的文本是否为手机号码格式
+            // 判断输入框是否有值，没有值的情况下给用户做反馈提示
+            // 有值，就模拟剩余时间 “?秒后重发”，然后剩余时间结束，可以重新发送验证
+            // 剩余时间未结束期间不允许点击/重复发送
+
+
+        // 编码：
+        // 获取页面相关的标签
+        var input_element = document.querySelector(".inp-phone");
+        var send_button = document.querySelector(".btn-send");
+
+        // 定义手机号码正则表达式
+        var phone =  /^1[3-9]\d{9}$/;
+
+        // 做个开关
+        var isSend = true;
+
+        // 定义剩余时间
+        var seconds = 10;
+
+        // 记录定时器函数
+        var timer = null;
+
+        // 点击“发送”
+        send_button.onclick = function(){
+            // 获取输入框的值
+            var value = input_element.value;
+            // console.log(value);
+
+            // 为空
+            if(value == "") {
+                alert("输入框不能为空");
+                return ;
+            }
+            // 手机格式是否正确
+            if(!phone.test(value)) {
+                alert("手机格式不正确");
+                return ;
+            }
+
+            // 开始倒数剩余时间
+            if(isSend && timer == null) {
+                console.log("计算剩余时间...")
+                // 执行downTime
+                downTime();
+                // 执行定时器函数
+                timer = setInterval(downTime,1000);
+            }
+        }
+
+        // 计算验证码的剩余时间
+        function downTime(){
+            seconds --;
+            // 判断剩余时间是否结束
+            if(seconds < 0) {
+                // 重置全局变量
+                isSend = true;
+                send_button.innerHTML = "重发验证码";
+                send_button.className="btn btn-send";
+                seconds = 10;
+                clearInterval(timer);
+                timer = null;
+                return false;
+            }
+            // 正常的倒数时间
+            send_button.innerHTML = seconds+"秒后重发";
+            send_button.className="btn btn-send active";
+        }
+
+
+
+
+        // 注意：在给变量其名称的时候，注意关键字、保留字等等。
+        // top
+        // name
+        // 这些单词是window对象的
+        // console.log(top);// window
+        // console.log(name);// ''
+        // console.log(abc);// 报错
+        // 可以通过添加$ 或 _  或 数字 让它们变成不是关键字、保留字。
+        // top_value
+        // name_value
+
+
+
+        // 总结：
+            // 1、涉及DOM操作
+            // 2、事件绑定
+            // 3、定时器函数
+            // 4、正则表达式的使用
+
+    </script>
+</body>
+</html>

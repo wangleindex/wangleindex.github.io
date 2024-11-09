@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本模板</title>
+    <style>
+        * {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin: 200px;
+            width: 300px;
+            height: 300px;
+        }
+
+        .container .content {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border: 10px solid #867e7e;
+            border-radius: 10px;
+
+        }
+
+        .container .content ul {
+            display: flex;
+            width: 1000%;
+            height: 300px;
+        }
+
+        .container .content ul li {
+            width: 10%;
+            /* margin-left: 10px; */
+        }
+
+        .container .content ul li img {
+            width: 100%;
+        }
+
+        .container .content .left {
+            position: absolute;
+            top: 50%;
+            height: 30px;
+            width: 30px;
+            background-color: rgba(255, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .container .content .left:hover {
+            background-color: red;
+        }
+
+        .container .content .right {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            height: 30px;
+            width: 30px;
+            background-color: rgba(255, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .container .content .right:hover {
+            background-color: red;
+        }
+
+        .bot ol {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .bot ol li {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-right: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .bot ol li.active {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <ul>
+                <li><a href="#"><img src="../1008/banner1.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../1008/banner2.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../1008/banner3.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../1008/banner4.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../1008/banner5.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../1008/banner1.jpg" alt=""></a></li>
+            </ul>
+            <div class="left"></div>
+            <div class="right"></div>
+        </div>
+        <div class="bot">
+            <ol>
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ol>
+        </div>
+    </div>
+    <script src="../day13/其他/js/animate.js"></script>
+    <script>
+        var mySwiper = document.querySelector('.container')
+        var mySwiperPhoto = document.querySelector('.container .content')
+        var ulElement = document.querySelector('.container ul')
+        var leftButton = document.querySelector('.container .left')
+        var rightButton = document.querySelector('.container .right')
+        var points = document.querySelectorAll('.bot ol li')
+
+        var width = mySwiperPhoto.offsetWidth;
+        var index = 0;
+        var key = 0;
+        var timer = null;
+        // 设置导航点高亮
+        var setPoint = function (key) {
+            for (var i = 0; i < points.length; i++) {
+                points[i].className = '';
+            }
+            points[key].className = 'active';
+        }
+        // setPoint(2)
+
+        // 轮播图向左切换自动播放
+        var autoLeftPlay = function () {
+            index++;
+
+            if(index>5){
+                ulElement.style['margin-left']="0px"
+                index=1
+            }
+
+            animate(ulElement, { marginLeft: -300 * index })
+            key++;
+
+            key = key > (points.length - 1) ? 0 : key;
+
+            setPoint(key)
+        }
+
+        // 轮播图向右切换自动播放
+        var autoRightPlay = function () {
+            index--;
+
+            if(index<0){
+                ulElement.style['margin-left']="-1500px"
+                index=4
+            }
+
+            animate(ulElement, { marginLeft: -300 * index })
+            key--;
+
+            key = key < 0 ? (points.length - 1) : key;
+
+            setPoint(key)
+        }
+
+        autoLeftPlay()
+        // 执行定时器
+        timer = setInterval(autoLeftPlay, 2000)
+
+
+        // 鼠标移入（停止播放）移出（开始播放）事件
+        mySwiper.onmouseover = function () {
+            // 清除定时器
+            clearInterval(timer)
+        }
+        mySwiper.onmouseleave=function(){
+            clearInterval(timer)
+            // 重新执行定时器
+            timer = setInterval(autoLeftPlay, 2000)
+            // 立即执行轮播图切换
+            autoLeftPlay()
+        }
+
+        // 左右按钮点击事件
+        leftButton.onclick=function(){
+            autoRightPlay()
+        }
+        rightButton.onclick=function(){
+            autoLeftPlay()
+        }
+
+        // 导航点点击事件
+        for (var i = 0; i < points.length; i++) {
+            points[i].index = i;
+            points[i].onclick = function () {
+                index = this.index;
+                animate(ulElement, { marginLeft: -300 * index })
+                setPoint(index)
+            }
+        }
+    </script>
+</body>
+
+</html>

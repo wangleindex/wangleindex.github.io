@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本模板</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .nav ul li.active {
+            background-color: deeppink;
+            color: #fff;
+            cursor: pointer;
+        }
+        .pc {
+            position: fixed;
+            left: 50px;
+            top: 50%;
+            margin-top: -140px;
+        }
+        .pc ul li {
+            width: 80px;
+            height: 60px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        .android {
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+        }
+        .android ul {
+            width: 100%;
+            display: flex;
+        }
+        .android ul li {
+            width: 25%;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+        }
+
+
+        .iphone {
+            width: 100%;
+            background-color: #20e434;
+            color: #f0f0f0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .iphone ul {
+            width: 100%;
+            display: flex;
+        }
+        .iphone ul li {
+            width: 25%;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav android">
+         <ul>
+            <li class="active">学习</li>
+            <li>工作</li>
+            <li>生活</li>
+            <li>旅游</li>
+         </ul>
+    </div>
+
+
+    <script>
+    //需求：
+    //     检测页面在哪一个设备终端上打开（PC,安卓,苹果）
+    //     在PC端打开，菜单在页面左侧栏显示
+    //     在安卓端打开，菜单在页面顶部栏显示
+    //     在苹果端打开，菜单在页面底部栏显示
+
+
+    // 定义函数 获取终端信息
+    var  getSystemInfo = function(){
+        // 获取设备信息（字符串）
+        var userAgent = navigator.userAgent;
+        // console.log(userAgent);
+        // 判断字符串是否包含“Android”文本
+        if(userAgent) {
+            if(userAgent.includes('Android')) {
+                return 'android';
+            }
+            else 
+            if(userAgent.includes('iPhone')) {
+                return 'iphone';
+            }
+            else {
+                return 'pc';
+            }
+        }
+    }
+
+
+    // 初始化
+    // getSystemInfo();
+
+    // 改变页面外观的函数
+    var changePage = function(){
+        // 获取标签
+        var nav_el = document.querySelector(".nav");
+        // 设置类名
+        nav_el.className = "nav " + getSystemInfo();
+    }
+
+
+    //监听窗口尺寸变化
+    window.addEventListener('resize',changePage);
+
+    // 监听设备角度变化（晃动）
+    window.addEventListener('orientationchange',changePage);
+
+
+    // 点击切换标签的背景高亮
+    var items = document.querySelectorAll(".nav li");
+    // 循环
+    for(var i = 0 ; i < items.length ; i ++){
+        // 给每个标签记录索引值
+        items[i].index = i;
+        // 事件绑定
+        items[i].onclick = function(){
+            // 问题：点击“生活”标签，控制台输出变量i是多少?
+            // console.log("i:",i);// i: 4
+            // 排他
+            for(var j = 0 ; j < items.length ; j ++){
+                items[j].className = "";
+            }
+            // 给点击的标签设置高亮
+            // items[this.index].className = "active";
+            this.className = "active";
+        }
+    }
+    </script>
+</body>
+</html>

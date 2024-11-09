@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人介绍</title>
+    <link rel="stylesheet" href="../wangle-projects/个人项目合集/栅格布局/libs/bootcss/css/bootstrap.min.css">
+    <!-- <link rel="icon" href="./projectv1.0.0/images/reddit.svg"> -->
+    <style>
+        /* 基本样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            /* background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        /* 左侧样式 */
+        .left {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex: 1 1 300px;
+            text-align: center;
+            background-color: #ffffff;
+        }
+
+        .left img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .left h2 {
+            color: #4A90E2;
+            margin-bottom: 10px;
+        }
+
+        .left p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .left .title {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* 右侧样式 */
+        .right {
+            flex: 2 1 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .right h2 {
+            color: #4A90E2;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .project {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f4f7fc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .project img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            margin-right: 15px;
+        }
+
+        .project h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .project p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .project a {
+            color: #4A90E2;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .project a:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .left, .right {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .project {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .project img {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+        <!-- 左侧个人信息 -->
+        <div class="left">
+            <img src="../wangle-projects/个人项目合集/栅格布局/imgs/5.jpg" alt="头像">
+            <h2>王乐</h2>
+            <p class="title">计算机应用技术</p>
+            <p style="font-size: 20px;margin-top: 20px;">
+                专业计算机应用技术，热爱编程，擅长Web前端开发，熟练掌握HTML、CSS、JavaScript、jQuery、Bootstrap、Vue.js等技术，有丰富的项目经验，对Web开发有浓厚兴趣。
+            </p>
+
+        </div>
+
+        <!-- 右侧项目介绍 -->
+        <div class="right">
+            <h2>项目经验</h2>
+             <!-- js 项目 -->
+             <div class="project">
+                <img src="../wangle-projects/个人项目合集/贪吃蛇/img/bg.jpg">
+                <div>
+                    <h3>js游戏项目:贪吃蛇 拼图游戏</h3>
+                    <p>使用jqurey库和canvas绘制游戏界面，实现了游戏的基本功能，包括蛇的移动、食物的生成、游戏结束的判断等。</p>
+                    <a target="_blank" href="../wangle-projects/个人项目合集/贪吃蛇/form.html">贪吃蛇</a>
+                    <a target="_blank" href="../wangle-projects/个人项目合集/JS/拼图游戏last.html">拼图游戏</a>
+                </div>
+            </div> <!-- bootstrap 项目 -->
+            <div class="project">
+                <img src="../wangle-projects/个人项目合集/栅格布局/在线娱乐游戏响应式网站/static/image/subpage-hero-img.png" alt="项目图标">
+                <div>
+                    <h3>bootstrap响应式页面:在线娱乐游戏响应网站</h3>
+                    <p>使用Bootstrap库和jq库以及vant2图标库</p>
+                    <a target="_blank" href="../wangle-projects/个人项目合集/栅格布局/在线娱乐游戏响应式网站/index.html">查看代码</a>
+                </div>
+            </div>
+
+            <!-- Vue 2 项目 -->
+            <div class="project">
+                <img src="https://via.placeholder.com/80"  alt="项目图标">
+                <div>
+                    <h3>Vue 2 项目：xxx</h3>
+                    <p>这是一个基于vue2的项目，功能暂时还没写完，敬请期待！</p>
+                    <a href="#">试试看！</a>
+                </div>
+            </div>
+
+            <!-- Vue 3 项目 -->
+            <div class="project">
+                <img src="https://via.placeholder.com/80" alt="项目图标">
+                <div>
+                    <h3>Vue 3 项目：xxx</h3>
+                    <p>这是一个基于vue3的项目，功能暂时还没写完，敬请期待！</p>
+                    <a href="#">查看代码</a>
+                </div>
+            </div>
+
+            <!-- 小程序项目 -->
+            <div class="project">
+                <img src="https://via.placeholder.com/80" alt="项目图标">
+                <div>
+                    <h3>小程序项目：xxx</h3>
+                    <p> 这是一个基于小程序的项目，功能暂时还没写完，敬请期待！</p>
+                    <a href="./demo.html"">查看代码</a>
+                </div>
+            </div>
+
+            <!-- UniApp 项目 -->
+            <div class="project">
+                <img src="https://via.placeholder.com/80" alt="项目图标">
+                <div>
+                    <h3>UniApp 项目：xxx</h3>
+                    <p> 这是一个基于uniapp的项目，功能暂时还没写完，敬请期待！</p>
+                    <a href="./demo.html">查看代码</a>
+                </div>
+            </div>
+
+            <!-- 鸿蒙项目 -->
+            <div class="project">
+                <img src="https://via.placeholder.com/80" alt="项目图标">
+                <div>
+                    <h3>鸿蒙项目：xxx</h3>
+                    <p> 这是一个基于鸿蒙的项目，功能暂时还没写完，敬请期待！</p>
+                    <a href="./demo.html">查看代码</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+

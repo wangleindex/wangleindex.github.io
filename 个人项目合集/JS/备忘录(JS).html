@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本模板</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        .wrapper {
+            width: 90%;
+            margin: 0 auto;
+            /* 最小高度 */
+            min-height: 1000px;
+            /* background-color: #ccc; */
+        }
+
+        .header {
+            padding: 15px;
+            width: 100%;
+            display: flex;
+        }
+
+        .header input {
+            font-size: 20px;
+            display: block;
+            /* width: 100%; */
+            /* calc: 计算，可以动态计算CSS属性值 */
+            width: calc(100% - 80px);
+            height: 50px;
+            padding-left: 20px;
+            flex-shrink: 0;
+            /* 移除外边框 */
+            outline: none;
+        }
+
+        .header button {
+            width: 80px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 20px;
+            flex-shrink: 0;
+            background-color: transparent;
+            border: 0;
+        }
+
+        .section {
+            width: 100%;
+            padding: 15px;
+            display: flex;
+        }
+
+        .section>div {
+            font-size: 20px;
+            margin-right: 25px;
+        }
+        .list {
+            padding: 15px;
+        }
+        .list li {
+            width: calc(100% - 80px);
+            padding: 10px 0;
+            border-bottom: 2px solid red;
+            /* 父元素 相对定位 */
+            position: relative;
+        }
+        .list li .left {
+            float: left;
+        }
+        .list li .right {
+            float: right;
+        }
+        .list li::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .list li .left input {
+            width: 30px;
+            height: 30px;
+            vertical-align: middle;
+        }
+        .list li.active::before {
+           content: "";
+           display: block;
+           width: calc(100% - 50px);
+           height: 1px;
+           /* background-color: #000; */
+           border-bottom: 1px dashed #000;
+           /* 子元素 绝对定位 */
+           position: absolute;
+           top: 50%;
+           left: 30px;
+        }
+        .list li .right span {
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .messsage {
+            padding: 30px 0;
+            text-align: center;
+            color: #cecece;
+            font-size: 20px;
+        }
+        .section span {
+            font-size: 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- 上 -->
+        <div class="header">
+            <input class="inp-text" type="text" placeholder="请输入容易忘记的事情~~">
+            <button class="btn-add">添加</button>
+        </div>
+        <!-- 中 -->
+        <div class="section">
+            <div>共 <span class="total">0</span> 件</div>
+            <div>已完成[ <span class="finish">0</span> ]</div>
+            <div>未完成[ <span class="doing">0</span> ]</div>
+        </div>
+        <!-- 下 -->
+        <ul class="list">
+           <!--             
+                <li class="">
+                    <div class="left">
+                        <input type="checkbox">
+                        <span>事情名称</span>
+                    </div>
+                    <div class="right">
+                        <span>X</span>
+                    </div>
+                </li> 
+            -->
+        </ul>
+        <p class="messsage">暂无备忘列表~~</p>
+    </div>
+
+    <script>
+        // 需求：
+        //     1、点击“添加”把输入框的文本添加到列表中
+        //     2、每一件事情有完成和未完成两个状态，勾选状态表示已完成，否则未完成
+        //     3、点击“X” 删除当前的这件事情
+        //     4、统计列表中事情的数量，已完成有多少，未完成有多少
+
+
+        // 编码：
+        // 1） 获取页面相关的元素
+        var input_element = document.querySelector(".inp-text");
+        var button_element = document.querySelector(".btn-add");
+        var total_element = document.querySelector(".total");
+        var finish_element = document.querySelector(".finish");
+        var doing_element = document.querySelector(".doing");
+        var ul_element = document.querySelector(".list");
+        var msg_element = document.querySelector(".messsage");
+
+
+        // 2) 点击“添加”按钮
+        button_element.onclick = function(){
+            // 获取输入的文本
+            var text = input_element.value;
+            // console.log(text);
+            // 输入框没有输入文本 
+            if(text.length == 0 || text == '') {
+                // 做用户反馈
+                alert("输入框不能为空。");
+                // 终止代码
+                return false;
+            }
+
+            // 创建li标签
+            var li = document.createElement("li");
+
+            // 设置li的超文本
+            // var str = '';
+            //     str += '<div class="left">'
+            //     str += '    <input type="checkbox">'
+            //     str += '    <span>'+text+'</span>'
+            //     str += '</div>'
+            //     str += '<div class="right">'
+            //     str += '    <span>X</span>'
+            //     str += '</div>'
+            // li.innerHTML = str;
+
+            //反单引号 (推荐使用模板字符串)
+            li.innerHTML = `
+                        <div class="left">
+                            <input type="checkbox">
+                            <span>${text}</span>
+                        </div>
+                        <div class="right">
+                            <span class="del">X</span>
+                        </div>
+                    `
+
+            // 把li标签添加到ul标签上
+            ul_element.appendChild(li);
+            
+            // 重置输入框
+            input_element.value = "";
+
+            // 隐藏“暂无备忘列表~~” 提示
+            var len = ul_element.children.length;
+            if(len != 0) {
+                // 当ul标签有子元素的时候，隐藏p标签
+                msg_element.style.display = "none";
+            }
+            // 统计事情的数量
+            total_element.innerText = len;
+
+        }
+
+
+        // var lis = document.querySelectorAll(".list li");
+        // console.log(lis);//为什么这个lis是空数组？ 因为“添加”点击行为还没有发生
+
+        // 3） 通过委托ul标签绑定事件的方式，从而给“复选框”标签和span.del标签注册事件
+        ul_element.onclick = function(event){
+            // 获取事件源
+            var el = event.target;
+            // console.log(el.tagName);
+            // 判断用户点击的是否为“复选框”
+            if(el.tagName.toLowerCase() == 'input') {
+                // console.log(el);
+                // 判断“复选框”是否被勾选 有一个属性checked，如果为true,表示勾选
+                // console.log(el.checked);
+                var li_element = el.parentElement.parentElement;
+                if(el.checked) {
+                    // 给li标签添加类名
+                    li_element.className = "active";
+                }
+                else {
+                    // 移除li标签的类名
+                    li_element.className = "";
+                }
+
+                // 统计一下页面上有多少个li标签带有类名active
+                var active_elements = ul_element.querySelectorAll(".active");
+                // 设置已完成的数量
+                finish_element.innerText = active_elements.length;
+                // 计算未完成的数量
+                var nums =  ul_element.children.length -  active_elements.length;
+                doing_element.innerText = nums;
+            }
+
+            // 判断用户是否点击了 “X” 标签
+            if(el.className == "del") {
+                // console.log("点击了删除标签")
+                // 找到 “X”标签对应的li元素
+                var li_element = el.parentElement.parentElement;
+                // 给用户做提示
+                if(confirm('您确定要删除这件事情吗?')) {
+                    // 删除
+                    // console.log("test");
+                    // 删除这个li标签
+                    li_element.remove();
+
+                    // 统计数量
+                    var len = ul_element.children.length;
+                    total_element.innerText = len;
+                    // 统计一下页面上有多少个li标签带有类名active
+                    var active_elements = ul_element.querySelectorAll(".active");
+                    // 设置已完成的数量
+                    finish_element.innerText = active_elements.length;
+                    // 计算未完成的数量
+                    var nums =  len -  active_elements.length;
+                    doing_element.innerText = nums;
+
+                    if(len == 0) {
+                        // 当ul标签没有子元素的，显示p标签
+                        msg_element.style.display = "block";
+                    }
+                }
+            }
+
+
+        }
+
+
+
+        // 总结：
+            // 1、根据草稿图进行排版布局
+            // 2、通过各种方式获取页面相关的元素
+            // 3、事件绑定、事件委托（动态绑定事件、减少dom操作）
+            // 4、复选框的checked属性、统计事情的数量
+            // 5、删除标签、给用户做反馈提示
+    </script>
+</body>
+
+</html>
